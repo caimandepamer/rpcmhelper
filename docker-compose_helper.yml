@@ -1,0 +1,18 @@
+services:
+   rpcmhelper:
+     image: caimandepamer/rpcmhelper:latest
+     volumes:
+             - ./data-helper:/mnt/data-helper:rw
+     restart: on-failure:5
+     environment:
+       MYSQL_DB_HOST: $MYSQL_DB_HOST
+       WORDPRESS_DB_USER: $MYSQL_USER
+       WORDPRESS_DB_PASSWORD: $MYSQL_PASSWORD
+       WORDPRESS_DB_NAME: $WORDPRESS_DB_NAME
+     container_name: rpcmhelper
+     command: 'bash /mnt/data-helper/runBackupMysql.sh'
+# Personalize with the same network of yout MYSQL_DB_HOST
+networks:
+  default:
+    external:
+      name: frontend
